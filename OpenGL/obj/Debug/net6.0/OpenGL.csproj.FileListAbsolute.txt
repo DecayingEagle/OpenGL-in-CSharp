@@ -1,0 +1,17 @@
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.csproj.AssemblyReference.cache
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.GLFW.Strings.resources
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.csproj.GenerateResource.cache
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.AssemblyInfoInputs.cache
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.AssemblyInfo.cs
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.csproj.CoreCompileInputs.cache
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\bin\Debug\net6.0\OpenGL.exe
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\bin\Debug\net6.0\OpenGL.deps.json
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\bin\Debug\net6.0\OpenGL.runtimeconfig.json
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\bin\Debug\net6.0\OpenGL.dll
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\bin\Debug\net6.0\OpenGL.pdb
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.dll
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\refint\OpenGL.dll
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.pdb
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\OpenGL.genruntimeconfig.cache
+C:\Users\roza0\Desktop\csharp\opengl\OpenGL\OpenGL\obj\Debug\net6.0\ref\OpenGL.dll

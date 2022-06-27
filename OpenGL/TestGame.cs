@@ -1,6 +1,7 @@
 ﻿using GLFW;
 using OpenGL.GameLoop;
 using OpenGL.Rendering.Display;
+using OpenGL.Rendering.Shaders;
 using static OpenGL.GL;
 
 namespace OpenGL
@@ -10,7 +11,7 @@ namespace OpenGL
         uint vbo;
         uint vao;
 
-        uint shader;
+        Shader shader;
         
         public TestGame(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle)
         {
@@ -43,20 +44,9 @@ namespace OpenGL
                                         FragColor = vertexColor;
                                     }";
 
-            uint vs = glCreateShader(GL_VERTEX_SHADER);
-            glShaderSource(vs, vertexShader);
-            glCompileShader(vs);
+            shader = new Shader(vertexShader, fragmentShader);
+            shader.Load();
 
-            uint fs = glCreateShader(GL_FRAGMENT_SHADER);
-            glShaderSource(fs, fragmentShader);
-            glCompileShader(fs);
-
-            shader = glCreateProgram();
-            glAttachShader(shader, vs);
-            glAttachShader(shader, fs);
-            
-            glLinkProgram(shader);
-            
             vao = glGenVertexArray();
             vbo = glGenBuffer();
 
@@ -98,8 +88,8 @@ namespace OpenGL
             glClearColor(0, 0, 0, 0);
             glClear(GL_COLOR_BUFFER_BIT);
             
-            glUseProgram(shader);
-            
+            shader.Use();
+
             glBindVertexArray(vao);
             glDrawArrays(GL_TRIANGLES, 0, 6);
             glBindVertexArray(0);

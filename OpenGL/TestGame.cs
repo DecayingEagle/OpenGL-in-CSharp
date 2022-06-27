@@ -1,5 +1,7 @@
-﻿using GLFW;
+﻿using System.Numerics;
+using GLFW;
 using OpenGL.GameLoop;
+using OpenGL.Rendering.Cameras;
 using OpenGL.Rendering.Display;
 using OpenGL.Rendering.Shaders;
 using static OpenGL.GL;
@@ -12,6 +14,8 @@ namespace OpenGL
         uint vao;
 
         Shader shader;
+
+        private Camera2D cam;
         
         public TestGame(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle)
         {
@@ -28,11 +32,14 @@ namespace OpenGL
                                     layout (location = 0) in vec2 aPosition;
                                     layout (location = 1) in vec3 aColor;
                                     out vec4 vertexColor;
+
+                                    uniform mat4 projection;
+                                    uniform mat4 model;
     
                                     void main() 
                                     {
                                         vertexColor = vec4(aColor.rgb, 1.0);
-                                        gl_Position = vec4(aPosition.xy, 0, 1.0);
+                                        gl_Position = projection * model * vec4(aPosition.xy, 0, 1.0);
                                     }";
 
             string fragmentShader = @"#version 330 core
@@ -76,6 +83,8 @@ namespace OpenGL
             
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
+
+            cam = new Camera2D(DisplayManager.WindowSize / 2f, 2.5f);
         }
 
         protected override void Update()
@@ -87,10 +96,24 @@ namespace OpenGL
         {
             glClearColor(0, 0, 0, 0);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            Vector2 position = new Vector2(400, 300);
+            Vector2 scale = new Vector2(150, 100);
+            float rotation = MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
+
+            Matrix4x4 trans = Matrix4x4.CreateTranslation(position.X, position.Y, 0);
+            Matrix4x4 sca = Matrix4x4.CreateScale(scale.X, scale.Y, 1);
+            Matrix4x4 rot = Matrix4x4.CreateRotationZ(rotation);
+            
+            shader.SetMatrix4x4("model", sca * rot * trans);
             
             shader.Use();
+            shader.SetMatrix4x4("projection", cam.GetProjectionMatrix());
 
             glBindVertexArray(vao);
+            // This is a nice debug feature for later
+            // Draws wireframe of all vertexes
+            // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             glDrawArrays(GL_TRIANGLES, 0, 6);
             glBindVertexArray(0);
             

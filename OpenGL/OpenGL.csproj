@@ -8,4 +8,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="StbiSharp" Version="1.2.1" />
+  </ItemGroup>
+
 </Project>

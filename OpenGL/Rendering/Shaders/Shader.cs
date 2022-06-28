@@ -4,7 +4,7 @@ using static OpenGL.GL;
 
 namespace OpenGL.Rendering.Shaders;
 
-class Shader
+public class Shader
 {
     private string vertexCode;
     private string fragmentCode;

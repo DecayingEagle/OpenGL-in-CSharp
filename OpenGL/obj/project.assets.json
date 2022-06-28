@@ -1,26 +1,81 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "StbiSharp/1.2.1": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.0/StbiSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/StbiSharp.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/libstbi.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/osx-x64/native/libstbi.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-x64/native/stbi.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/stbi.lib": {
+            "assetType": "native",
+            "rid": "win-x64"
+          }
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "StbiSharp/1.2.1": {
+      "sha512": "jbi94g3UDVAC3vH6jKZmmADH4Z6tGqbcdlyGhT/WZN9UE8OjjvpGFE5zF+UCSmIdya6iJ+Zo5VvxdQywSKN0Uw==",
+      "type": "package",
+      "path": "stbisharp/1.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "lib/netcoreapp2.0/StbiSharp.dll",
+        "lib/netcoreapp3.0/StbiSharp.dll",
+        "lib/netstandard2.0/StbiSharp.dll",
+        "runtimes/linux-x64/native/libstbi.so",
+        "runtimes/osx-x64/native/libstbi.dylib",
+        "runtimes/win-x64/native/stbi.dll",
+        "runtimes/win-x64/native/stbi.lib",
+        "stbisharp.1.2.1.nupkg.sha512",
+        "stbisharp.nuspec"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "StbiSharp >= 1.2.1"
+    ]
   },
   "packageFolders": {
-    "C:\\Users\\roza0\\.nuget\\packages\\": {}
+    "C:\\Users\\roza0\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\roza0\\Desktop\\csharp\\opengl\\OpenGL\\OpenGL\\OpenGL.csproj",
+      "projectUniqueName": "C:\\Users\\roza0\\RiderProjects\\OpenGL-in-CSharp\\OpenGL\\OpenGL.csproj",
       "projectName": "OpenGL",
-      "projectPath": "C:\\Users\\roza0\\Desktop\\csharp\\opengl\\OpenGL\\OpenGL\\OpenGL.csproj",
+      "projectPath": "C:\\Users\\roza0\\RiderProjects\\OpenGL-in-CSharp\\OpenGL\\OpenGL.csproj",
       "packagesPath": "C:\\Users\\roza0\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\roza0\\Desktop\\csharp\\opengl\\OpenGL\\OpenGL\\obj\\",
+      "outputPath": "C:\\Users\\roza0\\RiderProjects\\OpenGL-in-CSharp\\OpenGL\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\roza0\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -45,6 +100,12 @@
     "frameworks": {
       "net6.0": {
         "targetAlias": "net6.0",
+        "dependencies": {
+          "StbiSharp": {
+            "target": "Package",
+            "version": "[1.2.1, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -60,7 +121,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

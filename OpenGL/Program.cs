@@ -1,4 +1,5 @@
 ﻿using OpenGL.GameLoop;
+using StbiSharp;
 
 namespace OpenGL
 {
@@ -6,7 +7,7 @@ namespace OpenGL
     {
         public static void Main(string[] args)
         {
-            Game game = new TestGame(800, 600, "test");
+            Game game = new TestGame(600, 600, "test");
             game.Run();
         }
     }

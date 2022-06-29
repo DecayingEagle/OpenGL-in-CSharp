@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using System.Text;
 using GLFW;
 using OpenGL.GameLoop;
 using OpenGL.Rendering.Cameras;
@@ -12,15 +11,17 @@ namespace OpenGL
 {
     class TestGame : Game
     {
-        uint vbo;
-        uint vao;
+        uint _vbo;
+        uint _vao;
 
-        Shader shader;
-        Texture tex;
+        Shader _shader;
+        Texture _tex;
 
-        private Camera2D cam;
+        private Camera2D _cam;
         
+#pragma warning disable CS8618
         public TestGame(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle)
+#pragma warning restore CS8618
         {
             
         }
@@ -29,7 +30,7 @@ namespace OpenGL
             
         }
 
-        protected unsafe override void LoadContent()
+        protected override unsafe void LoadContent()
         {
             string vertexShader = @"#version 330 core
                                     layout (location = 0) in vec2 aPosition;
@@ -64,18 +65,18 @@ namespace OpenGL
                                         FragColor = texture(ourTexture, TexCoord);
                                     }";
 
-            shader = new Shader(vertexShader, fragmentShader);
-            shader.Load();
+            _shader = new Shader(vertexShader, fragmentShader);
+            _shader.Load();
             
-            tex = new Texture("sprites/block.png");
-            tex.Load();
+            _tex = new Texture("sprites/block.png");
+            _tex.Load();
             
 
-            vao = glGenVertexArray();
-            vbo = glGenBuffer();
+            _vao = glGenVertexArray();
+            _vbo = glGenBuffer();
 
-            glBindVertexArray(vao);
-            glBindBuffer(GL_ARRAY_BUFFER, vbo);
+            glBindVertexArray(_vao);
+            glBindBuffer(GL_ARRAY_BUFFER, _vbo);
             
             float[] vertices =
             {
@@ -104,7 +105,7 @@ namespace OpenGL
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
 
-            cam = new Camera2D(DisplayManager.WindowSize / 2f, 2.5f);
+            _cam = new Camera2D(DisplayManager.WindowSize / 2f, 2.5f);
         }
 
         protected override void Update()
@@ -118,21 +119,21 @@ namespace OpenGL
             glClear(GL_COLOR_BUFFER_BIT);
 
             Vector2 position = new Vector2(300, 300);
-            Vector2 scale = new Vector2(16, 16);
+            Vector2 scale = new Vector2(100, 150);
             float rotation = MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
 
             Matrix4x4 trans = Matrix4x4.CreateTranslation(position.X, position.Y, 0);
             Matrix4x4 sca = Matrix4x4.CreateScale(scale.X, scale.Y, 1);
             Matrix4x4 rot = Matrix4x4.CreateRotationZ(rotation);
             
-            shader.SetMatrix4x4("model", sca * rot * trans);
+            _shader.SetMatrix4X4("model", sca * rot * trans);
             
-            shader.Use();
-            shader.SetMatrix4x4("projection", cam.GetProjectionMatrix());
+            _shader.Use();
+            _shader.SetMatrix4X4("projection", _cam.GetProjectionMatrix());
             
             
-            glBindTexture(GL_TEXTURE_2D, tex.texture_copy);
-            glBindVertexArray(vao);
+            glBindTexture(GL_TEXTURE_2D, _tex.TextureCopy);
+            glBindVertexArray(_vao);
             // This is a nice debug feature for later
             // Draws wireframe of all vertexes
             // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

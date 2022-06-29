@@ -6,23 +6,21 @@ namespace OpenGL.Rendering.Shaders;
 
 public class Shader
 {
-    private string vertexCode;
-    private string fragmentCode;
-    
-    public uint ProgramID { get; set; }
+    private readonly string _vertexCode;
+    private readonly string _fragmentCode;
+
+    private uint ProgramId { get; set; }
     
     public Shader(string vertexCode, string fragmentCode)
         {
-            this.vertexCode = vertexCode;
-            this.fragmentCode = fragmentCode;
+            this._vertexCode = vertexCode;
+            this._fragmentCode = fragmentCode;
         }
 
     public void Load()
     {
-        uint vs, fs;
-        
-        vs = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vs, vertexCode);
+        uint vs = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vs, _vertexCode);
         glCompileShader(vs);
 
         int[] status = glGetShaderiv(vs, GL_COMPILE_STATUS, 1);
@@ -34,8 +32,8 @@ public class Shader
             Debug.WriteLine("ERROR COMPILING VERTEX SHADER" + error);
         }
         
-        fs = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fs, fragmentCode);
+        uint fs = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(fs, _fragmentCode);
         glCompileShader(fs);
         
         status = glGetShaderiv(fs, GL_COMPILE_STATUS, 1);
@@ -47,16 +45,16 @@ public class Shader
             Debug.WriteLine("ERROR COMPILING VERTEX SHADER" + error);
         }
         
-        ProgramID = glCreateProgram();
-        glAttachShader(ProgramID, vs);
-        glAttachShader(ProgramID, fs);
+        ProgramId = glCreateProgram();
+        glAttachShader(ProgramId, vs);
+        glAttachShader(ProgramId, fs);
         
-        glLinkProgram(ProgramID);
+        glLinkProgram(ProgramId);
         
         // Delete shaders
         
-        glDetachShader(ProgramID, vs);
-        glDetachShader(ProgramID, fs);
+        glDetachShader(ProgramId, vs);
+        glDetachShader(ProgramId, fs);
         glDeleteShader(vs);
         glDeleteShader(fs);
         
@@ -64,18 +62,18 @@ public class Shader
 
     public void Use()
     {
-        glUseProgram(ProgramID);
+        glUseProgram(ProgramId);
     }
 
-    public void SetMatrix4x4(string uniformName, Matrix4x4 mat)
+    public void SetMatrix4X4(string uniformName, Matrix4x4 mat)
     {
-        int location = glGetUniformLocation(ProgramID, uniformName);
-        glUniformMatrix4fv(location, 1, false, GetMatrix4x4Values(mat));
+        int location = glGetUniformLocation(ProgramId, uniformName);
+        glUniformMatrix4fv(location, 1, false, GetMatrix4X4Values(mat));
     }
     
-    private float[] GetMatrix4x4Values(Matrix4x4 m)
+    private float[] GetMatrix4X4Values(Matrix4x4 m)
     {
-        return new float[]
+        return new[]
         {
             m.M11, m.M12, m.M13, m.M14,
             m.M21, m.M22, m.M23, m.M24,

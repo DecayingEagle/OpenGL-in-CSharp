@@ -1,8 +1,5 @@
-﻿using System.Data;
-using System.Diagnostics;
-using System.Net;
+﻿using System.Diagnostics;
 using StbiSharp;
-using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using static OpenGL.GL;
 
@@ -10,15 +7,12 @@ namespace OpenGL.Rendering.Texture;
 
 public class Texture
 {
-    private string filepath;
-    private int texId;
+    private readonly string _filepath;
+    public uint TextureCopy;
 
-    public byte[] data_copy;
-    public uint texture_copy;
-
-    public unsafe Texture(string filepath)
+    public Texture(string filepath)
     {
-        this.filepath = filepath;
+        this._filepath = filepath;
     }
 
     public unsafe void Load(){
@@ -34,28 +28,24 @@ public class Texture
         // When shrinking the image, pixelate
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        int w, h,channels;
-        
-        Stream stream = File.OpenRead(filepath);
+        Stream stream = File.OpenRead(_filepath);
         MemoryStream ms = new MemoryStream();
         stream.CopyTo(ms);
 
         StbiImage image = Stbi.LoadFromMemory(ms, 4);
         byte[] data = image.Data.ToArray();
-        data_copy = data;
-        
 
-        w = image.Width;
-        h = image.Height;
-        channels = image.NumChannels;
+        int w = image.Width;
+        int h = image.Height;
 
-        GCHandle pinned_data = GCHandle.Alloc(data, GCHandleType.Pinned);
-        IntPtr data_ptr = pinned_data.AddrOfPinnedObject();
-        pinned_data.Free();
+        GCHandle pinnedData = GCHandle.Alloc(data, GCHandleType.Pinned);
+        IntPtr dataPtr = pinnedData.AddrOfPinnedObject();
+        pinnedData.Free();
 
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (data != null)
         {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data_ptr);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, dataPtr);
             glGenerateMipmap(GL_TEXTURE_2D);
         }
         else
@@ -63,6 +53,6 @@ public class Texture
             Debug.WriteLine("Failed to load texture");
         }
 
-        texture_copy = texture;
+        TextureCopy = texture;
     }
 }

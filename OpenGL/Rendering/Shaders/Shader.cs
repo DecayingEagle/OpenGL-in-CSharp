@@ -6,21 +6,34 @@ namespace OpenGL.Rendering.Shaders;
 
 public class Shader
 {
-    private readonly string _vertexCode;
-    private readonly string _fragmentCode;
+    private string vertexCode;
+    private string fragmentCode;
+
+    private string vertexCodeStream;
+    private string fragmentCodeStream;
+
+    private string _vsFilepath;
+    private string _fsFilepath;
 
     private uint ProgramId { get; set; }
     
-    public Shader(string vertexCode, string fragmentCode)
+    public Shader(string vsFilepath, string fsFilepath)
         {
-            this._vertexCode = vertexCode;
-            this._fragmentCode = fragmentCode;
+            this._vsFilepath = vsFilepath;
+            this._fsFilepath = fsFilepath;
         }
 
     public void Load()
     {
+        vertexCode = File.ReadAllText(_vsFilepath);
+        fragmentCode = File.ReadAllText(_fsFilepath);
+        
+        Console.WriteLine(vertexCodeStream);
+        Console.WriteLine(fragmentCodeStream);
+        
+        
         uint vs = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vs, _vertexCode);
+        glShaderSource(vs, vertexCode);
         glCompileShader(vs);
 
         int[] status = glGetShaderiv(vs, GL_COMPILE_STATUS, 1);
@@ -33,7 +46,7 @@ public class Shader
         }
         
         uint fs = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fs, _fragmentCode);
+        glShaderSource(fs, fragmentCode);
         glCompileShader(fs);
         
         status = glGetShaderiv(fs, GL_COMPILE_STATUS, 1);

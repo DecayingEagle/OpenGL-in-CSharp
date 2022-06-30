@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics;
+using System.Numerics;
+using System.Reflection;
 using GLFW;
 using OpenGL.GameLoop;
 using OpenGL.Rendering.Cameras;
@@ -17,7 +19,7 @@ namespace OpenGL
         Shader _shader;
         Texture _tex;
 
-        private Camera2D _cam;
+        private OrthoCamera2D _cam;
         
 #pragma warning disable CS8618
         public TestGame(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle)
@@ -32,40 +34,8 @@ namespace OpenGL
 
         protected override unsafe void LoadContent()
         {
-            string vertexShader = @"#version 330 core
-                                    layout (location = 0) in vec2 aPosition;
-                                    layout (location = 1) in vec3 aColor;
-                                    layout (location = 2) in vec2 aTexCoord;
-
-                                    out vec4 vertexColor;
-                                    out vec2 TexCoord;
-
-                                    uniform mat4 projection;
-                                    uniform mat4 model;
-    
-                                    void main() 
-                                    {
-                                        vertexColor = vec4(aColor.rgb, 1.0);
-                                        gl_Position = projection * model * vec4(aPosition.xy, 0, 1.0);
-                                        TexCoord = aTexCoord;
-                                    }";
-
-            string fragmentShader = @"#version 330 core
-                                    out vec4 FragColor;
-
-                                    in vec4 vertexColor;
-                                    in vec2 TexCoord;
-
-                                    uniform sampler2D ourTexture;
-
-                                    
-
-                                    void main() 
-                                    {
-                                        FragColor = texture(ourTexture, TexCoord);
-                                    }";
-
-            _shader = new Shader(vertexShader, fragmentShader);
+            
+            _shader = new Shader("../../../Rendering/Shaders/vertex.glsl", "../../../Rendering/Shaders/fragment.glsl");
             _shader.Load();
             
             _tex = new Texture("sprites/block.png");
@@ -105,7 +75,7 @@ namespace OpenGL
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
 
-            _cam = new Camera2D(DisplayManager.WindowSize / 2f, 2.5f);
+            _cam = new OrthoCamera2D(DisplayManager.WindowSize / 2f, 2.5f);
         }
 
         protected override void Update()

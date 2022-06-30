@@ -3,13 +3,11 @@ using OpenGL.Rendering.Display;
 
 namespace OpenGL.Rendering.Cameras;
 
-public class Camera2D
+public class OrthoCamera2D
 {
-    
-
     public Vector2 FocusPosition { get; set; }
     public float Zoom { get; set; }
-    public Camera2D(Vector2 focusPosition, float zoom)
+    public OrthoCamera2D(Vector2 focusPosition, float zoom)
      {
          FocusPosition = focusPosition;
          Zoom = zoom;

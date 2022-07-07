@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Numerics;
-using System.Reflection;
+﻿using System.Numerics;
 using GLFW;
 using OpenGL.GameLoop;
 using OpenGL.Rendering.Cameras;
@@ -19,8 +17,12 @@ namespace OpenGL
         Shader _shader;
         Texture _tex;
 
+        public Vector3 CamPos;
+
+        private Matrix4x4 _mat4;
+
         private OrthoCamera2D _cam;
-        
+
 #pragma warning disable CS8618
         public TestGame(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle)
 #pragma warning restore CS8618
@@ -29,7 +31,7 @@ namespace OpenGL
         }
         protected override void Init()
         {
-            
+            CamPos = new Vector3(0f, 0f, 0.1f);   
         }
 
         protected override unsafe void LoadContent()
@@ -80,17 +82,46 @@ namespace OpenGL
 
         protected override void Update()
         {
+            float camSpeed = 10f;
+
+            if (Glfw.GetKey(DisplayManager.Window, Keys.Left) == InputState.Press)
+            {
+                CamPos.X += -1f * GameTime.DeltaTime * camSpeed;
+                //Console.WriteLine("left");
+            }
+            if (Glfw.GetKey(DisplayManager.Window, Keys.Up) == InputState.Press)
+            {
+                CamPos.Y += -1f * GameTime.DeltaTime * camSpeed;
+                //Console.WriteLine("up");
+            }
+            if (Glfw.GetKey(DisplayManager.Window, Keys.Right) == InputState.Press)
+            {
+                CamPos.X += 1f * GameTime.DeltaTime * camSpeed;
+                //Console.WriteLine("right");
+            }
+            if (Glfw.GetKey(DisplayManager.Window, Keys.Down) == InputState.Press)
+            {
+                CamPos.Y += 1f * GameTime.DeltaTime * camSpeed;
+                //Console.WriteLine("down");
+            }
             
+            _mat4 = new Matrix4x4(   1f, 1f, 1f, 1f,
+                1f, 1f, 1f, 1f,
+                1f, 1f, 1f, 1f,
+                1f, 1f, 1f, 1f);
+
+            _mat4 = Matrix4x4.CreateTranslation(CamPos);
         }
 
         protected override void Render()
         {
+
             glClearColor(0, 0, 0, 0);
             glClear(GL_COLOR_BUFFER_BIT);
 
             Vector2 position = new Vector2(300, 300);
-            Vector2 scale = new Vector2(100, 150);
-            float rotation = MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
+            Vector2 scale = new Vector2(32, 32);
+            float rotation = 0f;//MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
 
             Matrix4x4 trans = Matrix4x4.CreateTranslation(position.X, position.Y, 0);
             Matrix4x4 sca = Matrix4x4.CreateScale(scale.X, scale.Y, 1);
@@ -100,6 +131,8 @@ namespace OpenGL
             
             _shader.Use();
             _shader.SetMatrix4X4("projection", _cam.GetProjectionMatrix());
+            _shader.SetMatrix4X4("view", _mat4);
+            
             
             
             glBindTexture(GL_TEXTURE_2D, _tex.TextureCopy);

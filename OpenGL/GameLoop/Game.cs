@@ -30,9 +30,10 @@ namespace OpenGL.GameLoop
             {
                 GameTime.DeltaTime = (float)Glfw.Time - GameTime.TotalElapsedSec;
                 GameTime.TotalElapsedSec = (float)Glfw.Time;
-                
+
+                DebugUpdate();
                 Update();
-                 
+
                 Glfw.PollEvents();
                  
                 Render();
@@ -44,6 +45,7 @@ namespace OpenGL.GameLoop
         protected abstract void LoadContent();
 
         protected abstract void Update();
+        protected abstract void DebugUpdate();
         protected abstract void Render();
     }
 }

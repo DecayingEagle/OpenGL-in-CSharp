@@ -12,7 +12,7 @@ public class Texture
 
     public Texture(string filepath)
     {
-        this._filepath = filepath;
+        _filepath = filepath;
     }
 
     public unsafe void Load(){

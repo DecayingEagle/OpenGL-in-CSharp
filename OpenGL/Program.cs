@@ -1,5 +1,4 @@
 ﻿using OpenGL.GameLoop;
-using StbiSharp;
 
 namespace OpenGL
 {

@@ -1,6 +1,9 @@
-﻿using System.Numerics;
-using GLFW;
+﻿using OpenGL.Engines;
 using OpenGL.GameLoop;
+
+//To be abstracted away
+using System.Numerics;
+using GLFW;
 using OpenGL.Rendering.Cameras;
 using OpenGL.Rendering.Display;
 using OpenGL.Rendering.Shaders;
@@ -11,17 +14,19 @@ namespace OpenGL
 {
     class TestGame : Game
     {
+        //Abstract away in the engine
         uint _vbo;
         uint _vao;
 
         Shader _shader;
         Texture _tex;
 
-        public Vector3 CamPos;
-
         private Matrix4x4 _mat4;
 
         private OrthoCamera2D _cam;
+        
+        //To keep
+        public Vector3 CamPos;
 
 #pragma warning disable CS8618
         public TestGame(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle)
@@ -52,12 +57,14 @@ namespace OpenGL
             
             float[] vertices =
             {
+              //    aPos   ,    aCol   , texPos
+              //  x  ,  y  , r , g , b , tx, ty
                 -0.5f, 0.5f, 1f, 0f, 0f, 0f, 1f, // top left
                 0.5f, 0.5f, 0f, 1f, 0f, 1f, 1f,// top right
                 -0.5f, -0.5f, 0f, 0f, 1f, 0f, 0f, // bottom left
 
                 0.5f, 0.5f, 0f, 1f, 0f, 1f, 1f,// top right
-                0.5f, -0.5f, 0f, 1f, 1f, 1f, 0f,// bottom right
+                0.5f, -0.5f, 1f, 1f, 0f, 1f, 0f,// bottom right
                 -0.5f, -0.5f, 0f, 0f, 1f, 0f, 0f// bottom left
             };
             fixed (float* v = &vertices[0])
@@ -80,26 +87,31 @@ namespace OpenGL
             _cam = new OrthoCamera2D(DisplayManager.WindowSize / 2f, 2.5f);
         }
 
+        protected override void DebugUpdate()
+        {
+            //Console.WriteLine(Input.MousePressed(MouseButton.Left));
+        }
+
         protected override void Update()
         {
-            float camSpeed = 10f;
+            float camSpeed = 40f;
 
-            if (Glfw.GetKey(DisplayManager.Window, Keys.Left) == InputState.Press)
+            if (Input.KeyPressed(Keys.Left))
             {
                 CamPos.X += -1f * GameTime.DeltaTime * camSpeed;
                 //Console.WriteLine("left");
             }
-            if (Glfw.GetKey(DisplayManager.Window, Keys.Up) == InputState.Press)
+            if (Input.KeyPressed(Keys.Up))
             {
                 CamPos.Y += -1f * GameTime.DeltaTime * camSpeed;
                 //Console.WriteLine("up");
             }
-            if (Glfw.GetKey(DisplayManager.Window, Keys.Right) == InputState.Press)
+            if (Input.KeyPressed(Keys.Right))
             {
                 CamPos.X += 1f * GameTime.DeltaTime * camSpeed;
                 //Console.WriteLine("right");
             }
-            if (Glfw.GetKey(DisplayManager.Window, Keys.Down) == InputState.Press)
+            if (Input.KeyPressed(Keys.Down))
             {
                 CamPos.Y += 1f * GameTime.DeltaTime * camSpeed;
                 //Console.WriteLine("down");
@@ -116,12 +128,11 @@ namespace OpenGL
         protected override void Render()
         {
 
-            glClearColor(0, 0, 0, 0);
-            glClear(GL_COLOR_BUFFER_BIT);
+            Engine2D.ClearScreen(0, 0, 0, 0);
 
             Vector2 position = new Vector2(300, 300);
             Vector2 scale = new Vector2(32, 32);
-            float rotation = 0f;//MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
+            float rotation = 0f; //MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
 
             Matrix4x4 trans = Matrix4x4.CreateTranslation(position.X, position.Y, 0);
             Matrix4x4 sca = Matrix4x4.CreateScale(scale.X, scale.Y, 1);
@@ -139,7 +150,7 @@ namespace OpenGL
             glBindVertexArray(_vao);
             // This is a nice debug feature for later
             // Draws wireframe of all vertexes
-            // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            //xglPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             glDrawArrays(GL_TRIANGLES, 0, 6);
             glBindVertexArray(0);
             

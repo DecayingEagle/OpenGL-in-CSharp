@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5s9xkdjv6ScqWQO7PXd6x7Dx21XDaO6sK1WXxfa/j8FxEP627QkD/YSG0drBzi48V9dMSKo6SQ7icxTIgkgwhQ==",
+  "dgSpecHash": "/RAf1rYiHm4ZpPkNGShzUwBrWCQixn9lJ88Rh+zmKHs95JDRjZNHJJz5dgGKbaOk6e82QqznKQsWIGo616Xujg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\roza0\\RiderProjects\\OpenGL-in-CSharp\\OpenGL\\OpenGL.csproj",
+  "projectFilePath": "C:\\Users\\roza0\\OpenGL-in-CSharp\\OpenGL\\OpenGL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\roza0\\.nuget\\packages\\stbisharp\\1.2.1\\stbisharp.1.2.1.nupkg.sha512"
   ],

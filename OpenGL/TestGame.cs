@@ -13,6 +13,7 @@ namespace OpenGL
 {
     class TestGame : Game
     {
+        public string projectPath = System.IO.Directory.GetCurrentDirectory();
         uint _vbo;
         uint _vao;
 
@@ -35,10 +36,10 @@ namespace OpenGL
         protected override unsafe void LoadContent()
         {
             
-            _shader = new Shader("../../../Rendering/Shaders/vertex.glsl", "../../../Rendering/Shaders/fragment.glsl");
+            _shader = new Shader(projectPath + @"/Rendering/Shaders/vertex.glsl", projectPath + @"/Rendering/Shaders/fragment.glsl");
             _shader.Load();
             
-            _tex = new Texture("sprites/block.png");
+            _tex = new Texture(projectPath + "/sprites/block.png");
             _tex.Load();
             
 

@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Numerics;
-using System.Xml.Serialization;
 using GLFW;
 using static OpenGL.GL;
 using Exception = System.Exception;

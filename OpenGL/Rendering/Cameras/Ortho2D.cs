@@ -25,4 +25,24 @@ public class OrthoCamera2D
 
         return orthoMatrix * zoomMatrix;
     }
+
+    public Matrix4x4 GetViewMatrix()
+    {
+        Vector3 camPos;
+
+        camPos = new Vector3(0f, 0f, 0.1f);
+
+        Matrix4x4 mat4;
+        mat4 = new Matrix4x4(   1f, 1f, 1f, 1f,
+            1f, 1f, 1f, 1f,
+            1f, 1f, 1f, 1f,
+            1f, 1f, 1f, 1f);
+
+        mat4 = Matrix4x4.CreateTranslation(camPos);
+        Console.WriteLine(mat4);
+        
+        return mat4;
+
+        
+    }
 }

@@ -1,8 +1,9 @@
-﻿using System.Diagnostics;
-using System.Numerics;
-using System.Reflection;
-using GLFW;
+﻿using OpenGL.Engines;
 using OpenGL.GameLoop;
+
+//To be abstracted away
+using System.Numerics;
+using GLFW;
 using OpenGL.Rendering.Cameras;
 using OpenGL.Rendering.Display;
 using OpenGL.Rendering.Shaders;
@@ -13,15 +14,24 @@ namespace OpenGL
 {
     class TestGame : Game
     {
+<<<<<<< HEAD
         public string projectPath = System.IO.Directory.GetCurrentDirectory();
+=======
+        //Abstract away in the engine
+>>>>>>> 315b27760286fe3859201e0224c11dbbc2c626bb
         uint _vbo;
         uint _vao;
 
         Shader _shader;
         Texture _tex;
 
+        private Matrix4x4 _mat4;
+
         private OrthoCamera2D _cam;
         
+        //To keep
+        public Vector3 CamPos;
+
 #pragma warning disable CS8618
         public TestGame(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle)
 #pragma warning restore CS8618
@@ -30,7 +40,7 @@ namespace OpenGL
         }
         protected override void Init()
         {
-            
+            CamPos = new Vector3(0f, 0f, 0.1f);   
         }
 
         protected override unsafe void LoadContent()
@@ -51,12 +61,14 @@ namespace OpenGL
             
             float[] vertices =
             {
+              //    aPos   ,    aCol   , texPos
+              //  x  ,  y  , r , g , b , tx, ty
                 -0.5f, 0.5f, 1f, 0f, 0f, 0f, 1f, // top left
                 0.5f, 0.5f, 0f, 1f, 0f, 1f, 1f,// top right
                 -0.5f, -0.5f, 0f, 0f, 1f, 0f, 0f, // bottom left
 
                 0.5f, 0.5f, 0f, 1f, 0f, 1f, 1f,// top right
-                0.5f, -0.5f, 0f, 1f, 1f, 1f, 0f,// bottom right
+                0.5f, -0.5f, 1f, 1f, 0f, 1f, 0f,// bottom right
                 -0.5f, -0.5f, 0f, 0f, 1f, 0f, 0f// bottom left
             };
             fixed (float* v = &vertices[0])
@@ -79,19 +91,52 @@ namespace OpenGL
             _cam = new OrthoCamera2D(DisplayManager.WindowSize / 2f, 2.5f);
         }
 
+        protected override void DebugUpdate()
+        {
+            //Console.WriteLine(Input.MousePressed(MouseButton.Left));
+        }
+
         protected override void Update()
         {
+            float camSpeed = 40f;
+
+            if (Input.KeyPressed(Keys.Left))
+            {
+                CamPos.X += -1f * GameTime.DeltaTime * camSpeed;
+                //Console.WriteLine("left");
+            }
+            if (Input.KeyPressed(Keys.Up))
+            {
+                CamPos.Y += -1f * GameTime.DeltaTime * camSpeed;
+                //Console.WriteLine("up");
+            }
+            if (Input.KeyPressed(Keys.Right))
+            {
+                CamPos.X += 1f * GameTime.DeltaTime * camSpeed;
+                //Console.WriteLine("right");
+            }
+            if (Input.KeyPressed(Keys.Down))
+            {
+                CamPos.Y += 1f * GameTime.DeltaTime * camSpeed;
+                //Console.WriteLine("down");
+            }
             
+            _mat4 = new Matrix4x4(   1f, 1f, 1f, 1f,
+                1f, 1f, 1f, 1f,
+                1f, 1f, 1f, 1f,
+                1f, 1f, 1f, 1f);
+
+            _mat4 = Matrix4x4.CreateTranslation(CamPos);
         }
 
         protected override void Render()
         {
-            glClearColor(0, 0, 0, 0);
-            glClear(GL_COLOR_BUFFER_BIT);
+
+            Engine2D.ClearScreen(0, 0, 0, 0);
 
             Vector2 position = new Vector2(300, 300);
-            Vector2 scale = new Vector2(100, 150);
-            float rotation = MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
+            Vector2 scale = new Vector2(32, 32);
+            float rotation = 0f; //MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
 
             Matrix4x4 trans = Matrix4x4.CreateTranslation(position.X, position.Y, 0);
             Matrix4x4 sca = Matrix4x4.CreateScale(scale.X, scale.Y, 1);
@@ -101,13 +146,15 @@ namespace OpenGL
             
             _shader.Use();
             _shader.SetMatrix4X4("projection", _cam.GetProjectionMatrix());
+            _shader.SetMatrix4X4("view", _mat4);
+            
             
             
             glBindTexture(GL_TEXTURE_2D, _tex.TextureCopy);
             glBindVertexArray(_vao);
             // This is a nice debug feature for later
             // Draws wireframe of all vertexes
-            // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            //xglPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             glDrawArrays(GL_TRIANGLES, 0, 6);
             glBindVertexArray(0);
             

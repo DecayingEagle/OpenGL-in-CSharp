@@ -1,0 +1,2 @@
+﻿TODO: Make game engine abstraction
+TODO: Create some var for programming a game

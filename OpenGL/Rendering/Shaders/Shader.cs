@@ -6,14 +6,11 @@ namespace OpenGL.Rendering.Shaders;
 
 public class Shader
 {
-    private string vertexCode;
-    private string fragmentCode;
 
-    private string vertexCodeStream;
-    private string fragmentCodeStream;
+    private readonly string _vsFilepath;
+    private readonly string _fsFilepath;
 
-    private string _vsFilepath;
-    private string _fsFilepath;
+    private float[] MatrixVal;
 
     private uint ProgramId { get; set; }
     
@@ -25,12 +22,8 @@ public class Shader
 
     public void Load()
     {
-        vertexCode = File.ReadAllText(_vsFilepath);
-        fragmentCode = File.ReadAllText(_fsFilepath);
-        
-        Console.WriteLine(vertexCodeStream);
-        Console.WriteLine(fragmentCodeStream);
-        
+        string vertexCode = File.ReadAllText(_vsFilepath);
+        string fragmentCode = File.ReadAllText(_fsFilepath);
         
         uint vs = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vs, vertexCode);
@@ -81,17 +74,13 @@ public class Shader
     public void SetMatrix4X4(string uniformName, Matrix4x4 mat)
     {
         int location = glGetUniformLocation(ProgramId, uniformName);
-        glUniformMatrix4fv(location, 1, false, GetMatrix4X4Values(mat));
-    }
-    
-    private float[] GetMatrix4X4Values(Matrix4x4 m)
-    {
-        return new[]
+        float[] matrixValues =
         {
-            m.M11, m.M12, m.M13, m.M14,
-            m.M21, m.M22, m.M23, m.M24,
-            m.M31, m.M32, m.M33, m.M34,
-            m.M41, m.M42, m.M43, m.M44
+            mat.M11, mat.M12, mat.M13, mat.M14,
+            mat.M21, mat.M22, mat.M23, mat.M24,
+            mat.M31, mat.M32, mat.M33, mat.M34,
+            mat.M41, mat.M42, mat.M43, mat.M44
         };
+        glUniformMatrix4fv(location, 1, false, matrixValues);
     }
 }

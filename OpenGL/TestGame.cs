@@ -14,11 +14,8 @@ namespace OpenGL
 {
     class TestGame : Game
     {
-<<<<<<< HEAD
-        public string projectPath = System.IO.Directory.GetCurrentDirectory();
-=======
         //Abstract away in the engine
->>>>>>> 315b27760286fe3859201e0224c11dbbc2c626bb
+        public string projectPath = System.IO.Directory.GetCurrentDirectory();
         uint _vbo;
         uint _vao;
 

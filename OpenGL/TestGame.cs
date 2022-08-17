@@ -22,6 +22,9 @@ namespace OpenGL
         Shader _shader;
         Texture _tex;
 
+        Shader _shader2;
+        Texture _tex2;
+
         private Matrix4x4 _mat4;
 
         private OrthoCamera2D _cam;
@@ -40,8 +43,11 @@ namespace OpenGL
             CamPos = new Vector3(0f, 0f, 0.1f);   
         }
 
+        
+
         protected override unsafe void LoadContent()
         {
+            //LoadObjects();
             
             _shader = new Shader(projectPath + @"/Rendering/Shaders/vertex.glsl", projectPath + @"/Rendering/Shaders/fragment.glsl");
             _shader.Load();
@@ -81,9 +87,48 @@ namespace OpenGL
             
             glVertexAttribPointer(2, 2, GL_FLOAT, false, 7 * sizeof(float), (void*)(5 * sizeof(float)));
             glEnableVertexAttribArray(2);
+
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+
+
+            _shader2 = new Shader(projectPath + @"/Rendering/Shaders/vertex.glsl", projectPath + @"/Rendering/Shaders/fragment.glsl");
+            _shader2.Load();
+            
+            _tex2 = new Texture(projectPath + "/sprites/maro.png");
+            _tex2.Load();
+            
+            float[] vertices2 =
+            {
+              //    aPos   ,    aCol   , texPos
+              //  x  ,  y  , r , g , b , tx, ty
+                -0.5f, 0.5f, 1f, 0f, 0f, 0f, 1f, // top left
+                0.5f, 0.5f, 0f, 1f, 0f, 1f, 1f,// top right
+                -0.5f, -0.5f, 0f, 0f, 1f, 0f, 0f, // bottom left
+
+                0.5f, 0.5f, 0f, 1f, 0f, 1f, 1f,// top right
+                0.5f, -0.5f, 1f, 1f, 0f, 1f, 0f,// bottom right
+                -0.5f, -0.5f, 0f, 0f, 1f, 0f, 0f// bottom left
+            };
+
+            fixed (float* v2 = &vertices2[0])
+            {
+                glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices2.Length, v2, GL_STATIC_DRAW);
+            }
+            
+            glVertexAttribPointer(3, 2, GL_FLOAT, false, 7 * sizeof(float), (void*)(7 * sizeof(float)));
+            glEnableVertexAttribArray(3);
+            
+            glVertexAttribPointer(4, 3, GL_FLOAT, false, 7 * sizeof(float), (void*)(10 * sizeof(float)));
+            glEnableVertexAttribArray(4);
+            
+            glVertexAttribPointer(5, 2, GL_FLOAT, false, 7 * sizeof(float), (void*)(12 * sizeof(float)));
+            glEnableVertexAttribArray(5);
             
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
+
+
 
             _cam = new OrthoCamera2D(DisplayManager.WindowSize / 2f, 2.5f);
         }
@@ -129,30 +174,43 @@ namespace OpenGL
         protected override void Render()
         {
 
-            Engine2D.ClearScreen(0, 0, 0, 0);
+            Engine2D.ClearScreen(1, 0, 0, 0);
 
             Vector2 position = new Vector2(300, 300);
             Vector2 scale = new Vector2(32, 32);
-            float rotation = 0f; //MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
+            float rotation = MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
 
             Matrix4x4 trans = Matrix4x4.CreateTranslation(position.X, position.Y, 0);
             Matrix4x4 sca = Matrix4x4.CreateScale(scale.X, scale.Y, 1);
             Matrix4x4 rot = Matrix4x4.CreateRotationZ(rotation);
+
+            Vector2 position2 = new Vector2(200, 200);
+            Matrix4x4 trans2 = Matrix4x4.CreateTranslation(position2.X, position2.Y, 0);
+            float rotation2 = 0f;
+            Matrix4x4 rot2 = Matrix4x4.CreateRotationZ(rotation2);
             
             _shader.SetMatrix4X4("model", sca * rot * trans);
             
             _shader.Use();
             _shader.SetMatrix4X4("projection", _cam.GetProjectionMatrix());
             _shader.SetMatrix4X4("view", _mat4);
-            
-            
-            
             glBindTexture(GL_TEXTURE_2D, _tex.TextureCopy);
+            glBindVertexArray(_vao);
+            glDrawArrays(GL_TRIANGLES, 0, 12);
+
+            _shader2.SetMatrix4X4("model", sca * rot2 * trans2);
+            
+            _shader2.Use();
+            _shader2.SetMatrix4X4("projection", _cam.GetProjectionMatrix());
+            _shader2.SetMatrix4X4("view", _mat4);
+            
+            glBindTexture(GL_TEXTURE_2D, _tex2.TextureCopy);
+
             glBindVertexArray(_vao);
             // This is a nice debug feature for later
             // Draws wireframe of all vertexes
             //xglPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            glDrawArrays(GL_TRIANGLES, 0, 6);
+            glDrawArrays(GL_TRIANGLES, 0, 12);
             glBindVertexArray(0);
             
             Glfw.SwapBuffers(DisplayManager.Window);

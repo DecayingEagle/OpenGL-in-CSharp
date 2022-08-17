@@ -1,0 +1,88 @@
+do not use that, use assimp or mby not it might be for 3d only
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public obj(Shader shader, Texture tex, int vaoSize, vec2 pos, vec2 scale, float rot){
+
+}
+
+objArr[i] = new obj(...)
+
+
+objArr[] = {shader, tex, vaoSize, pos, scale, rot}
+
+LoadObjects(objectArray)
+            _shader = new Shader(projectPath + @"/Rendering/Shaders/vertex.glsl", projectPath + @"/Rendering/Shaders/fragment.glsl");
+            _shader.Load();
+            
+            _tex = new Texture(projectPath + "/sprites/block.png");
+            _tex.Load();
+            
+
+            _vao = glGenVertexArray();
+            _vbo = glGenBuffer();
+
+            glBindVertexArray(_vao);
+            glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+            
+            float[] vertices =
+            {
+              //    aPos   ,    aCol   , texPos
+              //  x  ,  y  , r , g , b , tx, ty
+                -0.5f, 0.5f, 1f, 0f, 0f, 0f, 1f, // top left
+                0.5f, 0.5f, 0f, 1f, 0f, 1f, 1f,// top right
+                -0.5f, -0.5f, 0f, 0f, 1f, 0f, 0f, // bottom left
+
+                0.5f, 0.5f, 0f, 1f, 0f, 1f, 1f,// top right
+                0.5f, -0.5f, 1f, 1f, 0f, 1f, 0f,// bottom right
+                -0.5f, -0.5f, 0f, 0f, 1f, 0f, 0f// bottom left
+            };
+            fixed (float* v = &vertices[0])
+            {
+                glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.Length, v, GL_STATIC_DRAW);
+            }
+            
+            glVertexAttribPointer(0, 2, GL_FLOAT, false, 7 * sizeof(float), (void*)0);
+            glEnableVertexAttribArray(0);
+            
+            glVertexAttribPointer(1, 3, GL_FLOAT, false, 7 * sizeof(float), (void*)(2 * sizeof(float)));
+            glEnableVertexAttribArray(1);
+            
+            glVertexAttribPointer(2, 2, GL_FLOAT, false, 7 * sizeof(float), (void*)(5 * sizeof(float)));
+            glEnableVertexAttribArray(2);
+
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+
+RenderObject(objectArray)
+            Vector2 position = new Vector2(300, 300);
+            Vector2 scale = new Vector2(32, 32);
+            float rotation = MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
+
+            Matrix4x4 trans = Matrix4x4.CreateTranslation(position.X, position.Y, 0);
+            Matrix4x4 sca = Matrix4x4.CreateScale(scale.X, scale.Y, 1);
+            Matrix4x4 rot = Matrix4x4.CreateRotationZ(rotation);
+
+            _shader.SetMatrix4X4("model", sca * rot * trans);
+            
+            _shader.Use();
+            _shader.SetMatrix4X4("projection", _cam.GetProjectionMatrix());
+            _shader.SetMatrix4X4("view", _mat4);
+            glBindTexture(GL_TEXTURE_2D, _tex.TextureCopy);
+            glBindVertexArray(_vao);
+            glDrawArrays(GL_TRIANGLES, 0, 12);
+
+At end:
+            glBindVertexArray(0);

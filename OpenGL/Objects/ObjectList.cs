@@ -3,11 +3,24 @@ using OpenGL.Rendering.Texture;
 using System.Numerics;
 
 namespace OpenGL.ObjectList{
-    class Objects{
-        public List<Sprite> ObjList;
 
+    class Objects{
+        public List<Sprite> ObjList = new List<Sprite>();
+         
         public void AddObject(Sprite obj){
             ObjList.Add(obj);
+        }
+        
+        public void RemoveObject(int id){
+            Sprite objectToRemove = ObjList.FirstOrDefault(x => x.id == id); 
+            ObjList.Remove(objectToRemove);
+        }
+
+        public void LoadObjList(){
+
+        }
+        public void RenderObjList(){
+
         }
     }
     

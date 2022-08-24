@@ -47,7 +47,9 @@ namespace OpenGL
 
         protected override unsafe void LoadContent()
         {
-            //LoadObjects();
+            /*
+            LoadObjList();
+            */
             
             _shader = new Shader(projectPath + @"/Rendering/Shaders/vertex.glsl", projectPath + @"/Rendering/Shaders/fragment.glsl");
             _shader.Load();
@@ -173,8 +175,11 @@ namespace OpenGL
 
         protected override void Render()
         {
+            /*
+            RenderObjList();
+            */
 
-            Engine2D.ClearScreen(0.6f, 0f, 0f, 0.1f);
+            Engine2D.ClearScreen(0.4f, 0f, 0f, 0.1f);
 
             Vector2 position = new Vector2(300, 300);
             Vector2 scale = new Vector2(32, 32);

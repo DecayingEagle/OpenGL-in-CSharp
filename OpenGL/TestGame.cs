@@ -174,7 +174,7 @@ namespace OpenGL
         protected override void Render()
         {
 
-            Engine2D.ClearScreen(1, 0, 0, 0);
+            Engine2D.ClearScreen(0.6f, 0f, 0f, 0.1f);
 
             Vector2 position = new Vector2(300, 300);
             Vector2 scale = new Vector2(32, 32);
@@ -203,8 +203,10 @@ namespace OpenGL
             _shader2.Use();
             _shader2.SetMatrix4X4("projection", _cam.GetProjectionMatrix());
             _shader2.SetMatrix4X4("view", _mat4);
-            
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glBindTexture(GL_TEXTURE_2D, _tex2.TextureCopy);
+            
 
             glBindVertexArray(_vao);
             // This is a nice debug feature for later

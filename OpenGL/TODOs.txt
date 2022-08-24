@@ -1,2 +1,3 @@
 ﻿TODO: Make game engine abstraction
+TODO: Text rendering
 TODO: Create some var for programming a game

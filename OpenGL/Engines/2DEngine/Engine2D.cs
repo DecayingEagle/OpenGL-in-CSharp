@@ -29,7 +29,7 @@ public class Engine2D
         
     }
 
-    public static void ClearScreen(int r, int g, int b, int a)
+    public static void ClearScreen(float r, float g, float b, float a)
     {
         glClearColor(r, g, b, a);
         glClear(GL_COLOR_BUFFER_BIT);

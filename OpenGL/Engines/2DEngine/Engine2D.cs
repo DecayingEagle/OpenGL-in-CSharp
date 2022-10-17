@@ -1,27 +1,48 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using OpenGL.Rendering.Display;
+using OpenGL.Rendering.Shaders;
+using OpenGL.Rendering.Texture;
+using OpenGL.Sprites;
 using StbiSharp;
 using static OpenGL.GL;
 namespace OpenGL;
 
 public class Engine2D
 {
+    public string projectPath = System.IO.Directory.GetCurrentDirectory();
+    private List<Sprite> ObjList = new List<Sprite>();
 
-    public uint LoadTexture2D(string filepath)
-    {
-        uint texture = 0;
-        return texture;
+    public void AddObjectFromList(Sprite obj){
+        ObjList.Add(obj);
     }
-    
-    public void DrawRectangle(int x, int y, int r, int g, int b)
-    {
         
+    public void RemoveObjectFromList(int id){
+        Sprite objectToRemove = ObjList.FirstOrDefault(x => x.id == id); 
+        ObjList.Remove(objectToRemove);
     }
 
-    public void DrawRectangle(int x, int y, uint texture, string texWrapping)
-    {
+    public void DrawRectangle(int x, int y, int r, int g, int b){
+        Shader _shader;
+
+        _shader = new Shader(projectPath + @"/Rendering/Shaders/vertex.glsl", projectPath + @"/Rendering/Shaders/fragment.glsl");
+        _shader.Load();
+         
+
+        uint _vbo;
+        uint _vao;
+
+        _vao = glGenVertexArray();
+        _vbo = glGenBuffer();
+        glBindVertexArray(_vao);
+        glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+
+    }
         
+
+    public void DrawRectangle(int x, int y, string filepathTex, string texWrapping)
+    {
+        Shader _shader;
     }
 
     public void DrawCircle()

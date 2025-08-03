@@ -21,9 +21,11 @@ namespace OpenGL
 
         Shader _shader;
         Texture _tex;
+        Vector2 pos = new Vector2(300, 300);
 
         Shader _shader2;
         Texture _tex2;
+        Vector2 pos2 = new Vector2(0, 0);
 
         private Matrix4x4 _mat4;
 
@@ -51,10 +53,10 @@ namespace OpenGL
             LoadObjList();
             */
             
-            _shader = new Shader(projectPath + @"/Rendering/Shaders/vertex.glsl", projectPath + @"/Rendering/Shaders/fragment.glsl");
+            _shader = new Shader("/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/Rendering/Shaders/vertex.glsl", "/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/Rendering/Shaders/fragment.glsl");
             _shader.Load();
             
-            _tex = new Texture(projectPath + "/sprites/block.png");
+            _tex = new Texture("/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/sprites/block.png");
             _tex.Load();
             
 
@@ -94,10 +96,10 @@ namespace OpenGL
             glBindVertexArray(0);
 
 
-            _shader2 = new Shader(projectPath + @"/Rendering/Shaders/vertex.glsl", projectPath + @"/Rendering/Shaders/fragment.glsl");
+            _shader2 = new Shader("/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/Rendering/Shaders/vertex.glsl", "/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/Rendering/Shaders/fragment.glsl");
             _shader2.Load();
             
-            _tex2 = new Texture(projectPath + "/sprites/maro.png");
+            _tex2 = new Texture("/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/sprites/maro.png");
             _tex2.Load();
             
             float[] vertices2 =
@@ -144,28 +146,32 @@ namespace OpenGL
         {
             float camSpeed = 40f;
 
-            if (Input.KeyPressed(Keys.Left))
-            {
-                CamPos.X += -1f * GameTime.DeltaTime * camSpeed;
-                //Console.WriteLine("left");
-            }
-            if (Input.KeyPressed(Keys.Up))
-            {
-                CamPos.Y += -1f * GameTime.DeltaTime * camSpeed;
-                //Console.WriteLine("up");
-            }
-            if (Input.KeyPressed(Keys.Right))
-            {
-                CamPos.X += 1f * GameTime.DeltaTime * camSpeed;
-                //Console.WriteLine("right");
-            }
-            if (Input.KeyPressed(Keys.Down))
-            {
-                CamPos.Y += 1f * GameTime.DeltaTime * camSpeed;
-                //Console.WriteLine("down");
+            Vector2 camInput = Vector2.Zero;
+            Vector2 posInput = Vector2.Zero;
+            
+            if (Input.KeyPressed(Keys.Left))  camInput.X -= 1f;
+            if (Input.KeyPressed(Keys.Right)) camInput.X += 1f;
+            if (Input.KeyPressed(Keys.Up))    camInput.Y -= 1f;
+            if (Input.KeyPressed(Keys.Down))  camInput.Y += 1f;
+            
+            if (Input.KeyPressed(Keys.A)) posInput.X -= 1f;
+            if (Input.KeyPressed(Keys.D)) posInput.X += 1f;
+            if (Input.KeyPressed(Keys.W)) posInput.Y -= 1f;
+            if (Input.KeyPressed(Keys.S)) posInput.Y += 1f;
+            
+            if (Input.KeyPressed(Keys.R)) {
+                CamPos = new Vector3(0f, 0f, 0.1f);
+                pos = new Vector2(300, 300);
             }
             
-            _mat4 = new Matrix4x4(   1f, 1f, 1f, 1f,
+            CamPos += new Vector3(camInput * GameTime.DeltaTime * camSpeed, 0f);
+            pos += posInput * GameTime.DeltaTime * camSpeed;
+
+            pos2 = Input.MousePos();
+            System.Console.WriteLine("pos2: " + pos2);
+
+            _mat4 = new Matrix4x4(
+                1f, 1f, 1f, 1f,
                 1f, 1f, 1f, 1f,
                 1f, 1f, 1f, 1f,
                 1f, 1f, 1f, 1f);
@@ -181,7 +187,7 @@ namespace OpenGL
 
             Engine2D.ClearScreen(0.4f, 0f, 0f, 0.1f);
 
-            Vector2 position = new Vector2(300, 300);
+            Vector2 position = pos;
             Vector2 scale = new Vector2(32, 32);
             float rotation = MathF.Sin(GameTime.TotalElapsedSec) * MathF.PI * 2f;
 
@@ -189,7 +195,7 @@ namespace OpenGL
             Matrix4x4 sca = Matrix4x4.CreateScale(scale.X, scale.Y, 1);
             Matrix4x4 rot = Matrix4x4.CreateRotationZ(rotation);
 
-            Vector2 position2 = new Vector2(200, 200);
+            Vector2 position2 = pos2;
             Matrix4x4 trans2 = Matrix4x4.CreateTranslation(position2.X, position2.Y, 0);
             float rotation2 = 0f;
             Matrix4x4 rot2 = Matrix4x4.CreateRotationZ(rotation2);
@@ -216,7 +222,7 @@ namespace OpenGL
             glBindVertexArray(_vao);
             // This is a nice debug feature for later
             // Draws wireframe of all vertexes
-            //xglPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             glDrawArrays(GL_TRIANGLES, 0, 12);
             glBindVertexArray(0);
             

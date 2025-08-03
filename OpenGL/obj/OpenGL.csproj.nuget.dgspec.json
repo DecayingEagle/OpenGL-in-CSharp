@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\roza0\\OpenGL-in-CSharp\\OpenGL\\OpenGL.csproj": {}
+    "/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/OpenGL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\roza0\\OpenGL-in-CSharp\\OpenGL\\OpenGL.csproj": {
+    "/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/OpenGL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\roza0\\OpenGL-in-CSharp\\OpenGL\\OpenGL.csproj",
+        "projectUniqueName": "/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/OpenGL.csproj",
         "projectName": "OpenGL",
-        "projectPath": "C:\\Users\\roza0\\OpenGL-in-CSharp\\OpenGL\\OpenGL.csproj",
-        "packagesPath": "C:\\Users\\roza0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\roza0\\OpenGL-in-CSharp\\OpenGL\\obj\\",
+        "projectPath": "/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/OpenGL.csproj",
+        "packagesPath": "/home/lena/.nuget/packages/",
+        "outputPath": "/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\roza0\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/lena/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,7 +32,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -43,6 +47,10 @@
             "StbiSharp": {
               "target": "Package",
               "version": "[1.2.1, )"
+            },
+            "glfw": {
+              "target": "Package",
+              "version": "[3.4.0, )"
             }
           },
           "imports": [
@@ -51,16 +59,31 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.303/RuntimeIdentifierGraph.json"
         }
       }
     }

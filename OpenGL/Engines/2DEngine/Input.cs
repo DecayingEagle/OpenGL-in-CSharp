@@ -11,11 +11,12 @@ public static class Input
         return Glfw.GetKey(DisplayManager.Window, key) == InputState.Press;
     }
 
-    public static Vector2 MousePos()
-    {
-        Vector2 mousePos = new Vector2();
-        //Glfw.GetCursorPosition(DisplayManager.Window, out mousePos.X, out mousePos.Y);
-        return Vector2.One;
+    public static Vector2 MousePos() {
+        double x;
+        double y;
+        Glfw.GetCursorPosition(DisplayManager.Window, out x, out y);
+        Vector2 vec = new Vector2((float)x, (float)y);
+        return vec;
     }
 
     public static bool MousePressed(MouseButton button)

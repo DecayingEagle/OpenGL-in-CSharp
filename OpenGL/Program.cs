@@ -6,7 +6,7 @@ namespace OpenGL
     {
         public static void Main(string[] args)
         {
-            Game game = new TestGame(600, 600, "test");
+            Game game = new TestGame(1000, 1000, "test");
             game.Run();
         }
     }

@@ -8,12 +8,14 @@
     ".NETCoreApp,Version=v6.0": {
       "OpenGL/1.0.0": {
         "dependencies": {
-          "StbiSharp": "1.2.1"
+          "StbiSharp": "1.2.1",
+          "glfw": "3.4.0"
         },
         "runtime": {
           "OpenGL.dll": {}
         }
       },
+      "glfw/3.4.0": {},
       "StbiSharp/1.2.1": {
         "runtime": {
           "lib/netcoreapp3.0/StbiSharp.dll": {
@@ -51,6 +53,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "glfw/3.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+dIslj089MmFolYqg2mCZ8PQfiaOs5aBQJ7vNp1kkTPtks+DWt/9BNJxSjUSRnkp5rL+kjpHZ/tVqgQ//Y6tRQ==",
+      "path": "glfw/3.4.0",
+      "hashPath": "glfw.3.4.0.nupkg.sha512"
     },
     "StbiSharp/1.2.1": {
       "type": "package",

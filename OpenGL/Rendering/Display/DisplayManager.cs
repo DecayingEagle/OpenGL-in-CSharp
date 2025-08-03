@@ -23,7 +23,7 @@ namespace OpenGL.Rendering.Display
             Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
             
             Glfw.WindowHint(Hint.Focused, true);
-            Glfw.WindowHint(Hint.Resizable, false);
+            Glfw.WindowHint(Hint.Resizable, true);
 
             Window = Glfw.CreateWindow(width, height, title, Monitor.None, Window.None);
 
@@ -36,8 +36,10 @@ namespace OpenGL.Rendering.Display
             int x = (screen.Width - width) / 2;
             int y = (screen.Height - height) / 2;
 
-            Glfw.SetWindowPosition(Window, x, y);
-             
+            if (Environment.GetEnvironmentVariable("WAYLAND_DISPLAY") == null) {
+              Glfw.SetWindowPosition(Window, x, y);
+            }
+
             Glfw.MakeContextCurrent(Window);
             Import(Glfw.GetProcAddress);
             

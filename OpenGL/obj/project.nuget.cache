@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "RAVV6hbP8ZyceaofB9DIYsT5zKxkiF6l0wfttwtAoXzda85d5gILwDgNprYUS/KjFvewxtg9NfiMmftAzY3GKA==",
+  "dgSpecHash": "Vv7qc/sqwb8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\roza0\\OpenGL-in-CSharp\\OpenGL\\OpenGL.csproj",
+  "projectFilePath": "/home/lena/RiderProjects/OpenGL-in-CSharp/OpenGL/OpenGL.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\roza0\\.nuget\\packages\\stbisharp\\1.2.1\\stbisharp.1.2.1.nupkg.sha512"
+    "/home/lena/.nuget/packages/glfw/3.4.0/glfw.3.4.0.nupkg.sha512",
+    "/home/lena/.nuget/packages/stbisharp/1.2.1/stbisharp.1.2.1.nupkg.sha512",
+    "/home/lena/.nuget/packages/microsoft.netcore.app.ref/6.0.36/microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "/home/lena/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.36/microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
+    "/home/lena/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.36/microsoft.netcore.app.host.linux-x64.6.0.36.nupkg.sha512"
   ],
   "logs": []
 }

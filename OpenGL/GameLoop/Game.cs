@@ -1,51 +1,45 @@
 ﻿using GLFW;
 using OpenGL.Rendering.Display;
 
-namespace OpenGL.GameLoop
-{
-    abstract class Game
-    {
-        
+namespace OpenGL.GameLoop;
 
-        protected int InitialWindowWidth { get; set; }
-        protected int InitialWindowHeight { get; set; }
-        protected string InitialWindowTitle { get; set; }
+internal abstract class Game {
+  protected int InitialWindowWidth { get; set; }
+  protected int InitialWindowHeight { get; set; }
+  protected string InitialWindowTitle { get; set; }
 
-        protected Game(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle)
-                {
-                    this.InitialWindowWidth = initialWindowWidth;
-                    this.InitialWindowHeight = initialWindowHeight;
-                    this.InitialWindowTitle = initialWindowTitle;
-                }
-        
-        public void Run()
-        {
-            Init();
-            
-            DisplayManager.CreateWindow(InitialWindowWidth, InitialWindowHeight, InitialWindowTitle);
-            
-            LoadContent();
+  protected Game(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle) {
+    InitialWindowWidth = initialWindowWidth;
+    InitialWindowHeight = initialWindowHeight;
+    InitialWindowTitle = initialWindowTitle;
+  }
 
-            while (!Glfw.WindowShouldClose(DisplayManager.Window))
-            {
-                GameTime.DeltaTime = (float)Glfw.Time - GameTime.TotalElapsedSec;
-                GameTime.TotalElapsedSec = (float)Glfw.Time;
+  public void Run() {
+    Init();
 
-                DebugUpdate();
-                Update();
+    DisplayManager.CreateWindow(InitialWindowWidth, InitialWindowHeight, InitialWindowTitle);
 
-                Glfw.PollEvents();
-                 
-                Render();
-            }
-            DisplayManager.CloseWindow();
-        }
+    LoadContent();
 
-        protected abstract void Init();
-        protected abstract void LoadContent();
+    while (!Glfw.WindowShouldClose(DisplayManager.Window)) {
+      GameTime.DeltaTime = (float)Glfw.Time - GameTime.TotalElapsedSec;
+      GameTime.TotalElapsedSec = (float)Glfw.Time;
 
-        protected abstract void Update();
-        protected abstract void DebugUpdate();
-        protected abstract void Render();
+      DebugUpdate();
+      Update();
+
+      Glfw.PollEvents();
+
+      Render();
     }
+
+    DisplayManager.CloseWindow();
+  }
+
+  protected abstract void Init();
+  protected abstract void LoadContent();
+
+  protected abstract void Update();
+  protected abstract void DebugUpdate();
+  protected abstract void Render();
 }

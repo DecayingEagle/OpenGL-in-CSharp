@@ -1,6 +1,5 @@
 ﻿namespace OpenGL.Rendering.Cameras;
 
-public class Ortho3D
-{
-    
+public class Ortho3D {
+  //future method
 }
